@@ -1,6 +1,6 @@
 function Query_str = generateQuery(group, name, bin_arr, data_type, num_of_lines)
 
-Query_str = 'SELECT serial,';
+Query_str = ['SELECT meta->', '''', 'content', '''', '->0->>', '''', 'id', '''', ','];
 Query_str = sprintf('%s\n', Query_str);
 
 
