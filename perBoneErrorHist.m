@@ -33,17 +33,30 @@ for i=1:num_of_bones
     normlized_curr_arr = zeros(num_of_data, 11);
 
     for j=1:num_of_data
-       normlized_curr_arr(j,:) = curr_hist_arr(j,:)/(sum(curr_hist_arr(j,:)+1));
+       denom = sum(curr_hist_arr(j,:));
+       if(denom == 0)
+           denom = 1;
+       end
+       normlized_curr_arr(j,:) = curr_hist_arr(j,:)/denom;
     end
  
-    normalized_arr = sum(normlized_curr_arr)/(size(normlized_curr_arr,1)+1);
+    normalized_arr = sum(normlized_curr_arr)/(size(normlized_curr_arr,1));
     hist_arr{i} = normalized_arr;
 end
 
-
+norm_all_bones = zeros(1, 11);
 for i=1:num_of_bones
     figure(1), subplot(5,3,i), bar([0.5:1:10.5], hist_arr{i}), title(title_arr{i})
-    set(gca,'XTick', [1:11]);
+    norm_all_bones = hist_arr{i} + norm_all_bones;
+    set(gca,'XTick', [1:11])
+     axis([0 12 0 0.3])
+end
+
+norm_all_bones = norm_all_bones/sum(norm_all_bones);
+for i=1:num_of_bones
+    figure(2), subplot(5,3,i), bar([0.5:1:10.5], norm_all_bones-hist_arr{i}), title(title_arr{i})
+    set(gca,'XTick', [1:11])
+    axis([0 12 -0.2 0.2])
 end
 
 end
